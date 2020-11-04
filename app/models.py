@@ -13,7 +13,7 @@ class User(models.Model):
 class Member(User):
     member_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=50)
-    coach = models.ForeignKey('Coach', on_delete=models.RESTRICT)
+    coach_id = models.ForeignKey('Coach', on_delete=models.RESTRICT)
 
     def __str__(self):
         return self.member_name
@@ -56,7 +56,6 @@ class HealthProfile(models.Model):
     age = models.PositiveIntegerField()
     sex = models.CharField(max_length=1, choices=SEX)
     member = models.OneToOneField(Member, related_name='health_profile_of', on_delete=models.CASCADE)
-    recommended_daily_nutrients = models.ManyToManyField(Nutrient, through='HealthProfileNutrient')
     average_daily_nutrients = models.ManyToManyField(Nutrient, through='HealthProfileNutrient')
 
     def __str__(self):
