@@ -54,6 +54,9 @@ class Meal(models.Model):
     food_products = models.ManyToManyField(FoodProduct, through='MealFood')
     timestamp = models.DateTimeField()
 
+    class Meta:
+        ordering = ['-timestamp']
+
 
 class FoodNutrient(models.Model):
     nutrient = models.ForeignKey(Nutrient, on_delete=models.CASCADE)
