@@ -1,37 +1,11 @@
+from django.conf import settings
 from django.db import models
 
 
 # Create your models here.
-class User(models.Model):
-    email = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.email
-
-
-class Member(User):
-    member_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
-    coach_id = models.ForeignKey('Coach', on_delete=models.RESTRICT)
-
-    def __str__(self):
-        return self.member_name
-
-
-class Coach(User):
-    coach_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.coach_name
-
-
-class Admin(User):
-    admin_name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.admin_name
+class MemberCoach(models.Model):
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='member_set')
+    coach = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='coach_set')
 
 
 class Nutrient(models.Model):
@@ -55,7 +29,7 @@ class HealthProfile(models.Model):
     )
     age = models.PositiveIntegerField()
     sex = models.CharField(max_length=1, choices=SEX)
-    member = models.OneToOneField(Member, related_name='health_profile_of', on_delete=models.CASCADE)
+    member = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='health_profile_of', on_delete=models.CASCADE)
     average_daily_nutrients = models.ManyToManyField(Nutrient, through='HealthProfileNutrient')
 
     def __str__(self):
@@ -72,7 +46,7 @@ class FoodProduct(models.Model):
 
 
 class Meal(models.Model):
-    member = models.ForeignKey('Member', on_delete=models.CASCADE)
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     food_products = models.ManyToManyField(FoodProduct, through='MealFood')
     timestamp = models.DateTimeField()
 
