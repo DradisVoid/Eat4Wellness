@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
+    'food.apps.FoodConfig',
+    'healthprofile.apps.HealthprofileConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [
