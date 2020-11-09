@@ -3,11 +3,18 @@ from django.db import models
 
 
 # Create your models here.
-class MemberCoach(models.Model):
-    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='member_set')
-    coach = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='coach_set')
+
+# user profile models
+class Coach(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
+class Member(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    coach = models.ForeignKey(Coach, on_delete=models.RESTRICT)
+
+
+# other models
 class Nutrient(models.Model):
     nutrient_name = models.CharField(max_length=50)
 
