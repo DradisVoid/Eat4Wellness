@@ -1,5 +1,5 @@
 from django.db import models
-from app.models import Member
+from users.models import Member
 from food.models import Nutrient
 
 
