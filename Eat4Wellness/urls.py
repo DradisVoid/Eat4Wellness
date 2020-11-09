@@ -16,12 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
+    path('member/', include('users.member_urls')),
+    path('coach/', include('users.coach_urls')),
+    path('homepage/', include('users.urls')),
     path('food/', include('food.urls')),
     path('healthprofile/', include('healthprofile.urls')),
     path('search/', include('search.urls')),
+    path('', RedirectView.as_view(url='homepage/')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
