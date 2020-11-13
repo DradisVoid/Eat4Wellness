@@ -1,10 +1,17 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-    <div class="md-col-4 text-center">
-  <p>Logged out!</p>  
-  <a href="{% url 'homepage'%}">Return to homepage.</a>
+    <div class="container">
+        <div class="row">
+            <div class="col s4"></div>
+            <div class="col s4 center">
+
+                <p>Logged out!</p>
+                <a href="{% url 'homepage'%}">Return to homepage.</a>
+
+            </div>
+            <div class="col s4"></div>
+        </div>
     </div>
-    </div>
+
 {% endblock %}
