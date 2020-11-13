@@ -24,9 +24,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link waves-effect waves-light" href="#">Sign In</a>
-            </li>
+            {% if user.is_authenticated %}
+                <span class="navbar-text white-text">
+                    Hello, {{ user.get_username }}!
+                      </span>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="{% url 'login'%}?next={{request.path}}">Login</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
