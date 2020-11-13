@@ -29,7 +29,7 @@
                     Hello, {{ user.get_username }}!
                       </span>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+                    <a class="nav-link waves-effect waves-light" href="{% url 'logout'%}">Logout</a>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -39,7 +39,7 @@
         </ul>
     </div>
 </nav>
-<div class="container-fluid mt-3">
+<div class="container-fluid">
     {% block content %}{% endblock %}
 </div>
 </body>
