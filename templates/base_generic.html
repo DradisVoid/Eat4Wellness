@@ -19,7 +19,7 @@
 <body>
 {# TODO: Add logic to activate current page in sidenav (need both child and parent <li>) #}
 <header>
-    <nav class="teal lighten-2">
+    <nav class="teal">
         <div class="nav-wrapper">
             <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger full hide-on-large-only">
                 <i class="material-icons">menu</i></a>
@@ -87,7 +87,7 @@
                             {% if user.is_staff %}
                                 <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
                             {% endif %}
-                            <li class=""><a href="">Add User</a></li>
+                            <li><a href="">Add User</a></li>
                             <li><a href="">Analytics</a></li>
                         </ul>
                     </div>
