@@ -8,19 +8,20 @@ def homepage(request):
     return render(request, 'homepage.html', context=context)
 
 
-def admin_homepage(request):
+# Admin pages
+def admin_analytics(request):
     context = {}
 
-    return render(request, 'admin_homepage.html', context=context)
+    return render(request, 'admin_analytics.html', context=context)
 
 
-def coach_homepage(request):
+def admin_add_user(request):
     context = {}
 
-    return render(request, 'coach_homepage.html', context=context)
+    return render(request, 'admin_add_user.html', context=context)
 
 
-def member_homepage(request):
-    context = {}
+# Coach pages
 
-    return render(request, 'member_homepage.html', context=context)
+
+# Member pages

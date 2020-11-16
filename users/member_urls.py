@@ -6,5 +6,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.homepage, name='member'),
+    path('', views.homepage, name='member_homepage'),
 ]

@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-{# TODO: Add logic to activate current page in sidenav (need both child and parent <li>) #}
+
 <header>
     <nav class="teal">
         <div class="nav-wrapper">
@@ -45,57 +45,102 @@
         {% endif %}
         <li class="divider"></li>
 
-    {% if user.is_member %}
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li class="bold"><a class="collapsible-header waves-effect waves-teal" tabindex="0">Member</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="">Add a Meal</a></li>
-                            <li><a href="">View Meals</a></li>
-                            <li><a href="">Compare Food</a></li>
-                            <li><a href="">View Health Profile</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li class="divider"></li>
-    {% endif %}
+        {% if user.is_member %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="bold
+                    {% if 'member/' in request.path %}
+                    active
+                    {% endif %}
+                    "><a class="collapsible-header waves-effect waves-teal" tabindex="0">Member</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li class="
+                                {% if 'member/add_meal/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="">Add a Meal</a></li>
 
-    {% if user.is_coach %}
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li class="bold"><a class="collapsible-header waves-effect waves-teal" tabindex="0">Coach</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="">View Member Data</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li class="divider"></li>
-    {% endif %}
+                                <li class="
+                                {% if 'member/meals/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="">View Meals</a></li>
 
-    {% if user.is_admin %}
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li class="bold"><a class="collapsible-header waves-effect waves-teal" tabindex="0">Admin</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            {% if user.is_staff %}
-                                <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
-                            {% endif %}
-                            <li><a href="">Add User</a></li>
-                            <li><a href="">Analytics</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li class="divider"></li>
-    {% endif %}
+                                <li class="
+                                {% if 'member/compare_food/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="">Compare Food</a></li>
+
+                                <li class="
+                                {% if 'member/health_profile/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="">View Health Profile</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+        {% endif %}
+
+        {% if user.is_coach %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="bold
+                    {% if 'coach/' in request.path %}
+                    active
+                    {% endif %}
+                    "><a class="collapsible-header waves-effect waves-teal" tabindex="0">Coach</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li class="
+                                {% if 'coach/member_data/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="">View Member Data</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+        {% endif %}
+
+        {% if user.is_admin %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="bold
+                    {% if 'admin/' in request.path %}
+                    active
+                    {% endif %}
+                    "><a class="collapsible-header waves-effect waves-teal" tabindex="0">Admin</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                {% if user.is_staff %}
+                                    <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
+                                {% endif %}
+
+                                <li class="
+                                {% if 'admin/add_user/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="{% url 'admin_add_user' %}">Add User</a></li>
+
+                                <li class="
+                                {% if 'admin/analytics/' in request.path %}
+                                active teal
+                                {% endif %}
+                                "><a href="{% url 'admin_analytics' %}">Analytics</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+        {% endif %}
 
     </ul>
 </header>
