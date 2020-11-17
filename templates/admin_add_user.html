@@ -1,4 +1,5 @@
 {% extends "base_generic.html" %}
+{% load materializecss %}
 {% load static %}
 
 {% block title %}
@@ -9,10 +10,19 @@
 {% endblock %}
 
 {% block content %}
+    {% if s == '1' %}
+        <div class="center row orange">Successfully added user to database!</div>
+    {% endif %}
     <div class="container">
-    <div class="col s4 center">
-        <h1> Add User</h1>
-        {{ request.path }}
-    </div>
+        <div class="col s4">
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form|materializecss }}
+                </table>
+                <button type="submit" class="btn btn-large waves-effect waves-light teal">Submit</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

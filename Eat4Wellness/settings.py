@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'food.apps.FoodConfig',
     'healthprofile.apps.HealthprofileConfig',
     'search.apps.SearchConfig',
+    'materializecssform',
 ]
 
 MIDDLEWARE = [

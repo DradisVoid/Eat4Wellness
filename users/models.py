@@ -5,8 +5,8 @@ from django.conf import settings
 
 class User(AbstractUser):
     is_member = models.BooleanField('member status', default=False)
-    is_coach = models.BooleanField('member status', default=False)
-    is_admin = models.BooleanField('member status', default=False)
+    is_coach = models.BooleanField('coach status', default=False)
+    is_admin = models.BooleanField('admin status', default=False)
 
 
 class Admin(models.Model):
