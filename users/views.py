@@ -52,3 +52,14 @@ def admin_add_user(request):
 
 
 # Member pages
+def meal_add(request):
+    if request.method == 'POST':
+        pass
+
+    form = AddMealForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'member_meal_add.html', context=context)

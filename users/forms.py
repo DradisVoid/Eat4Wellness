@@ -17,7 +17,7 @@ class AddUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'is_member', 'coach_id', 'is_coach', 'is_admin',
-                  'is_superuser', 'password1', 'password2', )
+                  'is_superuser', 'password1', 'password2',)
 
     def clean(self):
         data = self.cleaned_data
@@ -34,3 +34,7 @@ class AddUserForm(UserCreationForm):
                 raise ValidationError("Django Superusers must also be Admins")
 
         return data
+
+
+class AddMealForm(forms.Form):
+    date = forms.DateTimeField(required=True, help_text='Meal Time', label='')
