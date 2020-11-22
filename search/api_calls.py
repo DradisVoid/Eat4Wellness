@@ -39,3 +39,30 @@ def get_food(fdcId):
         'ingredients': ingr_list,
         'nutrients': nutr_list
     }
+
+
+def search(s):
+    url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=' + API_KEY
+
+    data = {
+        "query": s,
+        "dataType": [
+            "Survey (FNDDS)"
+        ]
+    }
+
+    r = requests.post(url, json=data)
+
+    json_data = r.json()
+
+    results = {}
+
+    if json_data["totalHits"] > 0:
+        count = 0
+        for item in json_data['foods']:
+            results[item['fdcId']] = {
+                'name': item['description']
+            }
+            count += 1
+
+    return results
