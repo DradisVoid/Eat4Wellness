@@ -1,3 +1,5 @@
+import sys
+
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from users.models import *
@@ -55,7 +57,6 @@ def admin_add_user(request):
 
 # Member pages
 def meal_add(request):
-    #TODO: Verify this works
     if request.method == 'POST':
         form = AddMealForm(request.POST)
         if form.is_valid():
@@ -65,9 +66,13 @@ def meal_add(request):
             meal = food_models.Meal(member_id=member.id, timestamp=timestamp)
             meal.save()
 
-            food_product_list = form.getlist('foodProductList')
+            food_list_text = form.cleaned_data.get('food_list')
+            food_list = food_list_text.split(",")
 
-            for food_id in food_product_list:
+            for food_id in food_list:
+                if food_id == '':
+                    continue
+
                 food_data = api_calls.get_food(food_id)
                 name = food_data.get('name')
 
@@ -76,12 +81,17 @@ def meal_add(request):
                     fdc_id=food_id
                 )
 
-                if not created:
-                    # foodproduct not in db
+                print(name + str(created), file=sys.stderr)
+
+                if created:
+                    # foodproduct not already in db
                     ingredients = food_data.get('ingredients')
 
-                    for ingredient in ingredients:
-                        ingr_name = ingredient.get['name']
+                    print(ingredients, file=sys.stderr)
+
+                    for ingr_key in ingredients:
+                        ingredient = ingredients.get(ingr_key)
+                        ingr_name = ingredient.get('name')
 
                         ingredient_obj, ingr_created = food_models.Ingredient.objects.get_or_create(
                             ingredient_name=ingr_name
@@ -91,7 +101,10 @@ def meal_add(request):
 
                     nutrients = food_data.get('nutrients')
 
-                    for nutrient in nutrients:
+                    print(nutrients, file=sys.stderr)
+
+                    for nutr_key in nutrients:
+                        nutrient = nutrients.get(nutr_key)
                         nutr_name = nutrient.get('name')
                         nutr_unit = nutrient.get('unit')
                         nutr_amount = nutrient.get('amount')
@@ -109,6 +122,8 @@ def meal_add(request):
                 meal.food_products.add(food_product)
 
             meal.save()
+
+            return HttpResponseRedirect(reverse('member_add_meal') + '?s=1')
 
     else:
         form = AddMealForm()

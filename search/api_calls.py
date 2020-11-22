@@ -5,8 +5,11 @@ import requests
 from .api_key import API_KEY
 
 
-def get_food(fdcId):
-    url = f'https://api.nal.usda.gov/fdc/v1/food/{fdcId}?api_key=' + API_KEY
+def get_food(fdc_id):
+    if fdc_id == '':
+        return {}
+
+    url = f'https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key=' + API_KEY
 
     r = requests.get(url)
 

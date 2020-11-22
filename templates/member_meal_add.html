@@ -43,7 +43,7 @@
                         <input id="foodSearchTerm" type="text" class="validate">
                         <label for="foodSearchTerm">Food Name</label>
                     </div>
-                    <button onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</button>
+                    <a onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</a>
                 </form>
 
                 <div class="row">
@@ -100,7 +100,7 @@
                         let foodHTML = "<table><tbody>";
                         $.each(data, function (k, v) {
                             foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" +
-                                "<a href='javascript:viewFood(" + k + ", \"" + v.name + "\")'>" + v.name + "</a></td></tr>";
+                                "<a onclick='viewFood(" + k + ", \"" + v.name + "\")'>" + v.name + "</a></td></tr>";
                         });
                         foodHTML += "</tbody></table>"
 
@@ -126,7 +126,7 @@
                     success: function (data) {
                         console.log(data);
 
-                        let dataHTML = "<button onclick='addFood(" + id + ", \"" + name + "\")' class='btn btn-large waves-effect waves-light red'>Add to Meal</button>" +
+                        let dataHTML = "<a onclick='addFood(" + id + ", \"" + name + "\")' class='btn btn-large waves-effect waves-light red'>Add to Meal</a>" +
                             "<i id='check" + id + "' class='material-icons' style='display: none'>done</i>" +
                             "<h5>Ingredients</h5><table><tbody>";
 
@@ -150,13 +150,21 @@
 
             function addFood(id, name) {
                 $("#foodList").append("<div id='foodList" + id + "' class='row'>" +
-                    "<input id='foodProductList' value='" + id + "' hidden><h5>" + name + "</h5>" +
+                    "<h5>" + name + "</h5>" +
                     "<span class=\"btn waves-effect waves-light red remove\">Remove</span> " +
                     "</div>");
+
+                let food_list_input = $("#id_food_list");
+                let list = food_list_input.val()
+                list += id + ","
+                food_list_input.val(list);
+
                 $("#check" + id).show();
 
                 $("#foodList" + id).on('click', 'span.remove', function () {
                     $("#foodList" + id).remove();
+                    let food_list_input = $("#id_food_list");
+                    food_list_input.val(food_list_input.val().replace(id + ",", ""))
                 });
 
             }

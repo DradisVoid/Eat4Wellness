@@ -4,16 +4,13 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from search import api_calls
 
-# Get API key from file
-from .api_key import API_KEY
-
 
 # Create your views here.
 @csrf_exempt
 def search_food(request):
     if request.method == 'POST':
 
-        response = api_calls.search(request.POST['s'])
+        response = api_calls.search(request.POST.get('s', ''))
 
         return JsonResponse(response)
     else:
@@ -24,7 +21,7 @@ def search_food(request):
 def get_food(request):
     if request.method == 'POST':
 
-        response = api_calls.get_food(request.POST['id'])
+        response = api_calls.get_food(request.POST.get('id', ''))
 
         return JsonResponse(response)
     else:

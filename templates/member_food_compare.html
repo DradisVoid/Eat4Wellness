@@ -18,7 +18,7 @@
                         <input id="foodSearchTerm" type="text" class="validate">
                         <label for="foodSearchTerm">Food Name</label>
                     </div>
-                    <button onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</button>
+                    <a onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</a>
                 </form>
                 <br>
                 <div id="searchResultsLoader" class="preloader-wrapper big active" style="display: none">
@@ -35,11 +35,11 @@
                 <div id="searchResults"></div>
 
             </div>
-            <div class="col s8" style="display: none">
-                <div id="viewFoodLoader" class="progress">
+            <div class="col s8">
+                <div id="viewFoodLoader" class="progress" style="display: none">
                     <div class="indeterminate"></div>
                 </div>
-                <div id="compareList">
+                <div id="viewFood" class="row">
 
                 </div>
             </div>
@@ -62,7 +62,8 @@
                     success: function (data) {
                         let foodHTML = "<table><tbody>";
                         $.each(data, function (k, v) {
-                            foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" + v.name + "</td></tr>";
+                            foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" + v.name + "</td>" +
+                                "<td><span class=\"btn waves-effect waves-light red\" onclick='viewFood(" + k + ")'>Add</span></td></tr>";
                         });
                         foodHTML += "</tbody></table>"
 
@@ -88,7 +89,7 @@
                     success: function (data) {
                         console.log(data);
 
-                        let dataHTML = "<div id='foodView" + id + "'><h4>" + name + "</h4>" +
+                        let dataHTML = "<div id='foodView" + id + "' class='col s4'><h4>" + data.name + "</h4>" +
                             "<span class=\"btn waves-effect waves-light red remove\">Remove</span>" +
                             "<h5>Ingredients</h5><table><tbody>";
 
