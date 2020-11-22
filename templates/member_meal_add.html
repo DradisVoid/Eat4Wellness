@@ -23,6 +23,12 @@
                     <i class="material-icons">add</i> Add Food Product
                 </a>
 
+                <br>
+
+                <div id="foodList"></div>
+
+                <br>
+
                 <button type="submit" class="btn btn-large waves-effect waves-light teal">Submit</button>
             </form>
         </div>
@@ -40,7 +46,36 @@
                     <button onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</button>
                 </form>
 
-                <div id="searchResults"></div>
+                <div class="row">
+                    <div class="col s6">
+                        <div id="searchResultsLoader" class="preloader-wrapper big active" style="display: none">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="searchResults"></div>
+                    </div>
+                    <div class="col s6">
+                        <div id="viewFoodLoader" class="preloader-wrapper big active" style="display: none">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="viewFood"></div>
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -51,16 +86,83 @@
         <script>
             function searchFood() {
                 let s = $("#foodSearchTerm").val()
+
+                $("#searchResultsLoader").show();
+
                 $.ajax({
                     type: "POST",
-                    url: {% url 'search_food' %},
+                    url: "{% url 'search_food' %}",
                     data: {
                         's': s
                     },
+                    dataType: "json",
                     success: function (data) {
-                        $("#searchResults").html(data);
+                        let foodHTML = "<table><tbody>";
+                        $.each(data, function (k, v) {
+                            foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" +
+                                "<a href='javascript:viewFood(" + k + ", \"" + v.name + "\")'>" + v.name + "</a></td></tr>";
+                        });
+                        foodHTML += "</tbody></table>"
+
+                        $("#searchResultsLoader").hide()
+
+                        $("#searchResults").html(foodHTML);
                     }
                 });
+            }
+
+            function viewFood(id, name) {
+                $(".foodList").removeClass('teal');
+                $("#foodRow" + id).addClass('teal');
+                $("#viewFoodLoader").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'view_food' %}",
+                    dataType: 'json',
+                    data: {
+                        'id': id
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        let dataHTML = "<button onclick='addFood(" + id + ", \"" + name + "\")' class='btn btn-large waves-effect waves-light red'>Add to Meal</button>" +
+                            "<i id='check" + id + "' class='material-icons' style='display: none'>done</i>" +
+                            "<h5>Ingredients</h5><table><tbody>";
+
+                        $.each(data.ingredients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table><h5>Nutrients</h5><table><tbody>";
+
+                        $.each(data.nutrients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td><td>" + v.amount + "</td><td>" + v.unit + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table>";
+
+                        $("#viewFoodLoader").hide();
+                        $("#viewFood").html(dataHTML);
+                    }
+                });
+            }
+
+            function addFood(id, name) {
+                $("#foodList").append("<div id='foodList" + id + "' class='row'>" +
+                    "<input id='foodProductList' value='" + id + "' hidden><h5>" + name + "</h5>" +
+                    "<span class=\"btn waves-effect waves-light red remove\">Remove</span> " +
+                    "</div>");
+                $("#check" + id).show();
+
+                $("#foodList" + id).on('click', 'span.remove', function () {
+                    $("#foodList" + id).remove();
+                });
+
+            }
+
+            function remove(id) {
+                $("#" + id).remove();
             }
         </script>
 

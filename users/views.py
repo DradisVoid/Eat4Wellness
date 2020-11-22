@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from users.models import *
 from users.forms import *
+from food import models as food_models
+from search import api_calls
 
 
 # Create your views here.
@@ -54,9 +56,61 @@ def admin_add_user(request):
 # Member pages
 def meal_add(request):
     if request.method == 'POST':
-        pass
+        form = AddMealForm(request.POST)
+        if form.is_valid():
+            timestamp = form.cleaned_data.get('date')
+            member = Member.objects.get(user=request.user)
 
-    form = AddMealForm()
+            meal = food_models.Meal(member_id=member.id, timestamp=timestamp)
+            meal.save()
+
+            food_product_list = form.getlist('foodProductList')
+
+            for food_id in food_product_list:
+                food_data = api_calls.get_food(food_id)
+                name = food_data.get('name')
+
+                food_product, created = food_models.FoodProduct.objects.get_or_create(
+                    product_name=name,
+                    fdc_id=food_id
+                )
+
+                if not created:
+                    # foodproduct not in db
+                    ingredients = food_data.get('ingredients')
+
+                    for ingredient in ingredients:
+                        ingr_name = ingredient.get['name']
+
+                        ingredient_obj, ingr_created = food_models.Ingredient.objects.get_or_create(
+                            ingredient_name=ingr_name
+                        )
+
+                        food_product.ingredients.add(ingredient_obj)
+
+                    nutrients = food_data.get('nutrients')
+
+                    for nutrient in nutrients:
+                        nutr_name = nutrient.get('name')
+                        nutr_unit = nutrient.get('unit')
+                        nutr_amount = nutrient.get('amount')
+
+                        nutr_obj, nutr_created = food_models.Nutrient.objects.get_or_create(
+                            nutrient_name=nutr_name
+                        )
+
+                        nutr_through = food_models.FoodNutrient.objects.create(
+                            nutrient=nutr_obj, food_product=food_product, amount=nutr_amount, unit=nutr_unit
+                        )
+
+                    food_product.save()
+
+                meal.food_products.add(food_product)
+
+            meal.save()
+
+    else:
+        form = AddMealForm()
 
     context = {
         'form': form
