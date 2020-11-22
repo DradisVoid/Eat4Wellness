@@ -55,6 +55,7 @@ def admin_add_user(request):
 
 # Member pages
 def meal_add(request):
+    #TODO: Verify this works
     if request.method == 'POST':
         form = AddMealForm(request.POST)
         if form.is_valid():
@@ -117,3 +118,9 @@ def meal_add(request):
     }
 
     return render(request, 'member_meal_add.html', context=context)
+
+
+def food_compare(request):
+    context = {}
+
+    return render(request, 'member_food_compare.html', context=context)
