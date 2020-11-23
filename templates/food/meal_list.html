@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}
+    Meal Record
+{% endblock %}
+{% block pagetitle %}
+    Meal Record
+{% endblock %}
+
+{% block content %}
+    <div class="col s4 center">
+        {% if meal_list %}
+            <ul>
+                {% for meal in meal_list %}
+                    <li>
+                        <a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no recorded meals.</p>
+        {% endif %}
+    </div>
+{% endblock %}

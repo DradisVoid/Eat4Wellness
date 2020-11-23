@@ -1,3 +1,4 @@
+from django.shortcuts import reverse
 from django.db import models
 from users.models import Member
 
@@ -26,6 +27,9 @@ class FoodProduct(models.Model):
     def __str__(self):
         return self.product_name
 
+    def get_absolute_url(self):
+        return reverse('food-product-detail-view', args=[str(self.id)])
+
 
 class Meal(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
@@ -37,6 +41,9 @@ class Meal(models.Model):
 
     def __str__(self):
         return str(self.timestamp)
+
+    def get_absolute_url(self):
+        return reverse('meal-detail-view', args=[str(self.id)])
 
 
 class FoodNutrient(models.Model):

@@ -1,7 +1,7 @@
 import sys
-
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
+from django.views import generic
 from users.models import *
 from users.forms import *
 from food import models as food_models
@@ -48,7 +48,7 @@ def admin_add_user(request):
     context = {
         'form': form,
         's': request.GET.get('s', '0')
-               }
+    }
     return render(request, 'admin_add_user.html', context=context)
 
 
@@ -139,3 +139,20 @@ def food_compare(request):
     context = {}
 
     return render(request, 'member_food_compare.html', context=context)
+
+
+class MealListView(generic.ListView):
+    model = food_models.Meal
+
+    def get_queryset(self):
+        member = Member.objects.get(user_id=self.request.user)
+
+        return food_models.Meal.objects.filter(member_id=member)
+
+
+class MealDetailView(generic.DetailView):
+    model = food_models.Meal
+
+
+class FoodProductDetailView(generic.DetailView):
+    model = food_models.FoodProduct

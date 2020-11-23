@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    Food Product
+{% endblock %}
+{% block pagetitle %}
+    Food Product
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row center">
+        <h4>Food: {{ foodproduct.product_name }}</h4>
+    </div>
+    <div class="row" style="margin-top:20px">
+    <div class="col s5">
+        <div>
+            <h5>Ingredients:</h5>
+            <ul>
+                {% for ingredient in foodproduct.ingredients.all %}
+                    <li style="margin-bottom: 10px">{{ ingredient.ingredient_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col s5" style="margin-left: 50px">
+        <div>
+            <h5>Nutrients:</h5>
+            <ul>
+                {% for nutrient in foodproduct.foodnutrient_set.all %}
+                    <li>{{ nutrient.nutrient.nutrient_name }} - {{ nutrient.amount }} {{ nutrient.unit }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

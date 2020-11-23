@@ -65,13 +65,13 @@
                                 {% if 'member/meals/' in request.path %}
                                 active teal
                                 {% endif %}
-                                "><a href="">View Meals</a></li>
+                                "><a href="{% url 'member_meals' %}">View Meals</a></li>
 
                                 <li class="
                                 {% if 'member/compare_food/' in request.path %}
                                 active teal
                                 {% endif %}
-                                "><a href="{% url 'member_conpare_meal' %}">Search/Compare Food</a></li>
+                                "><a href="{% url 'member_compare_meal' %}">Search/Compare Food</a></li>
 
                                 <li class="
                                 {% if 'member/health_profile/' in request.path %}
