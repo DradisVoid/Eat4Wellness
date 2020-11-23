@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}
+    Members
+{% endblock %}
+{% block pagetitle %}
+    Members
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="col s6">
+        <h4>Member: {{ member.user.get_full_name }} ({{ member.user.username }})</h4>
+
+        <div style="margin-top:20px">
+            <h5>Meal Records:</h5>
+            <ul style="margin-left:20px;">
+                {% for meal in member.meal_set.all %}
+                    <li><a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+{% endblock %}

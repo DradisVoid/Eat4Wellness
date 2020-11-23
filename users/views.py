@@ -141,18 +141,13 @@ def food_compare(request):
     return render(request, 'member_food_compare.html', context=context)
 
 
-class MealListView(generic.ListView):
-    model = food_models.Meal
+class MemberListView(generic.ListView):
+    model = Member
 
     def get_queryset(self):
-        member = Member.objects.get(user_id=self.request.user)
-
-        return food_models.Meal.objects.filter(member_id=member)
-
-
-class MealDetailView(generic.DetailView):
-    model = food_models.Meal
+        coach = Coach.objects.get(user_id=self.request.user)
+        return Member.objects.filter(coach_id=coach)
 
 
-class FoodProductDetailView(generic.DetailView):
-    model = food_models.FoodProduct
+class MemberDetailView(generic.DetailView):
+    model = Member

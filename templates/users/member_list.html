@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}
+    Members
+{% endblock %}
+{% block pagetitle %}
+    Members
+{% endblock %}
+
+{% block content %}
+    <div class="col s4 center">
+        {% if member_list %}
+            <ul>
+                {% for member in member_list %}
+                    <li>
+                        <a href="{{ member.get_absolute_url }}">{{ member.user.get_full_name }} ({{ member.user.username }})</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no members assigned to you.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
@@ -29,3 +30,6 @@ class Member(models.Model):
 
     def __str__(self):
         return "Member: " + str(self.user)
+
+    def get_absolute_url(self):
+        return reverse('member-detail-view', args=[str(self.id)])
