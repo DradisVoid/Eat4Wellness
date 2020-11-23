@@ -10,13 +10,6 @@ class User(AbstractUser):
     is_admin = models.BooleanField('admin status', default=False)
 
 
-class Admin(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "Admin: " + str(self.user)
-
-
 class Coach(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

@@ -15,4 +15,3 @@ class MyUserAdmin(UserAdmin):
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Coach)
 admin.site.register(Member)
-admin.site.register(Admin)

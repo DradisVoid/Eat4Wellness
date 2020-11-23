@@ -33,7 +33,7 @@ class FoodProduct(models.Model):
 
 class Meal(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    food_products = models.ManyToManyField(FoodProduct)
+    food_products = models.ManyToManyField(FoodProduct, through='MealFoodServings')
     timestamp = models.DateTimeField()
 
     class Meta:
@@ -54,3 +54,21 @@ class FoodNutrient(models.Model):
 
     def __str__(self):
         return str(self.nutrient) + " (" + str(self.amount) + " " + self.unit + ") - Food Product"
+
+
+class FoodPortion(models.Model):
+    description = models.CharField(max_length=255)
+    gram_weight = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.description + " (" + str(self.gram_weight) + "g)"
+
+
+class MealFoodServings(models.Model):
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
+    food_product = models.ForeignKey(FoodProduct, on_delete=models.CASCADE)
+    portion = models.ForeignKey(FoodPortion, on_delete=models.CASCADE)
+    servings = models.PositiveIntegerField()
+
+    def __str__(self):
+        return str(self.food_product) + " (" + str(self.servings) + " servings)"
