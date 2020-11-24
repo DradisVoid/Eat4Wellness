@@ -18,21 +18,25 @@
     <div class="col s5">
         <div>
             <h5>Ingredients:</h5>
-            <ul>
+            <table>
+            <tbody>
                 {% for ingredient in mealfoodservings.food_product.ingredients.all %}
-                    <li style="margin-bottom: 10px">{{ ingredient.ingredient_name }}</li>
+                    <tr><td>{{ ingredient.ingredient_name }}</td></tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+            </table>
         </div>
     </div>
     <div class="col s5" style="margin-left: 50px">
         <div>
             <h5>Nutrients:</h5>
-            <ul>
+            <table>
+            <tbody>
                 {% for nutrient in mealfoodservings.food_product.foodnutrient_set.all %}
-                    <li>{{ nutrient.nutrient.nutrient_name }} - {% widthratio mealfoodservings.get_amount_ratio 1 nutrient.amount %} {{ nutrient.unit }}</li>
+                    <tr><td>{{ nutrient.nutrient.nutrient_name }} - {% widthratio mealfoodservings.get_amount_ratio 1 nutrient.amount %} {{ nutrient.unit }}</td></tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+            </table>
         </div>
     </div>
     </div>

@@ -14,12 +14,14 @@
 
         <div style="margin-top:20px">
             <h5>Food Products:</h5>
-            <ul style="margin-left:20px;">
+            <table style="margin-left:20px;">
+            <tbody>
                 {% for item in meal.mealfoodservings_set.all %}
-                    <li><a href="{{ item.get_absolute_url }}">{{ item.food_product.product_name }}
-                        [{{ item.servings }} Servings of: {{ item.portion }}]</a></li>
+                    <tr><td><a href="{{ item.get_absolute_url }}">{{ item.food_product.product_name }}
+                        [{{ item.servings }} Servings of: {{ item.portion }}]</a></td></tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+            </table>
         </div>
     </div>
     </div>

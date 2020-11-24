@@ -1,25 +1,24 @@
 from django.shortcuts import render
 from django.views import generic
 from users.models import Member
-from food import models as food_models
-from search import api_calls
+from food.models import Meal, MealFoodServings
 
 
 # Create your views here.
 class MealListView(generic.ListView):
-    model = food_models.Meal
+    model = Meal
 
     def get_queryset(self):
         member = Member.objects.get(user_id=self.request.user)
-        return food_models.Meal.objects.filter(member_id=member)
+        return Meal.objects.filter(member_id=member)
 
 
 class MealDetailView(generic.DetailView):
-    model = food_models.Meal
+    model = Meal
 
 
 class MealItemDetailView(generic.DetailView):
-    model = food_models.MealFoodServings
+    model = MealFoodServings
 
 
 def food_compare(request):
@@ -29,6 +28,11 @@ def food_compare(request):
 
 
 def member_nutrition(request):
-    context = {}
+    member = Member.objects.get(user_id=request.user)
+    meal_list = Meal.objects.filter(member_id=member)
+
+    context = {
+        'meal_list': meal_list
+    }
 
     return render(request, 'member_nutrition.html', context=context)

@@ -15,11 +15,13 @@
 
         <div style="margin-top:20px">
             <h5>Meal Records:</h5>
-            <ul style="margin-left:20px;">
+            <table style="margin-left:20px;">
+            <tbody>
                 {% for meal in member.meal_set.all %}
-                    <li><a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a></li>
+                    <tr><td><a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a></td></tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+            </table>
         </div>
     </div>
     </div>

@@ -9,17 +9,25 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col s4 center">
-        {% if member_list %}
-            <ul>
-                {% for member in member_list %}
-                    <li>
-                        <a href="{{ member.get_absolute_url }}">{{ member.user.get_full_name }} ({{ member.user.username }})</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>There are no members assigned to you.</p>
-        {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col s4"></div>
+            <div class="col s4">
+                {% if member_list %}
+                    <table>
+                        <tbody>
+                        {% for member in member_list %}
+                            <tr><td>
+                                <a href="{{ member.get_absolute_url }}">{{ member.user.get_full_name }} ({{ member.user.username }})</a>
+                            </td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>There are no members assigned to you.</p>
+                {% endif %}
+            </div>
+            <div class="col s4"></div>
+        </div>
     </div>
 {% endblock %}
