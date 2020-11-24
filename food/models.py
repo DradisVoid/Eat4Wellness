@@ -5,21 +5,21 @@ from users.models import Member
 
 # Create your models here.
 class Nutrient(models.Model):
-    nutrient_name = models.CharField(max_length=50)
+    nutrient_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nutrient_name
 
 
 class Ingredient(models.Model):
-    ingredient_name = models.CharField(max_length=50)
+    ingredient_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.ingredient_name
 
 
 class FoodProduct(models.Model):
-    product_name = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=255)
     fdc_id = models.PositiveIntegerField(unique=True, null=True)
     ingredients = models.ManyToManyField(Ingredient)
     nutrients = models.ManyToManyField(Nutrient, through='FoodNutrient')
