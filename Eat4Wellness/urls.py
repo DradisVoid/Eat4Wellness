@@ -26,7 +26,6 @@ urlpatterns = [
                   path('coach/', include('users.coach_urls')),
                   path('homepage/', include('users.urls')),
                   path('food/', include('food.urls')),
-                  path('healthprofile/', include('healthprofile.urls')),
                   path('search/', include('search.urls')),
                   path('', RedirectView.as_view(url='homepage/')),
                   path('accounts/', include('django.contrib.auth.urls')),
