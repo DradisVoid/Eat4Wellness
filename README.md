@@ -10,11 +10,11 @@ Eat4Wellness health coaches are able to access their assigned members' diet logs
 Test out the app's functionality at [Heroku](https://eat4wellness-arn.herokuapp.com/homepage/)
 
 ## Frameworks
-Django 3.1
+[Django 3.1](https://www.djangoproject.com/)
 
-Materialize 1.0.0
+[Materialize 1.0.0](https://materializecss.com/)
 
-jQuery 3.5.1
+[jQuery 3.5.1](https://jquery.com/)
 
 ## Installation
 
