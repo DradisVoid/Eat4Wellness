@@ -6,6 +6,7 @@ from users.models import *
 from users.forms import *
 from food import models as food_models
 from api import api_calls
+from api.models import ApiGetCall, ApiSearchCall
 from datetime import datetime, timedelta
 
 
@@ -18,7 +19,24 @@ def homepage(request):
 
 # Admin pages
 def admin_analytics(request):
-    context = {}
+    num_members = Member.objects.count()
+    num_coaches = Coach.objects.count()
+    meal_count = food_models.Meal.objects.count()
+    food_product_count = food_models.FoodProduct.objects.count()
+    api_searches_count = ApiSearchCall.objects.count()
+    api_get_count = ApiGetCall.objects.count()
+
+    latest_searches = ApiSearchCall.objects.all()[:10]
+
+    context = {
+        'num_members': num_members,
+        'num_coaches': num_coaches,
+        'meal_records': meal_count,
+        'food_products': food_product_count,
+        'api_searches_count': api_searches_count,
+        'api_get_count': api_get_count,
+        'latest_searches': latest_searches
+    }
 
     return render(request, 'admin_analytics.html', context=context)
 

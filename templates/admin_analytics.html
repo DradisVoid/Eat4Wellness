@@ -10,12 +10,26 @@
 
 {% block content %}
     <div class="container">
-    <div class="col s4 center">
-        <h4>Members Registered: </h4>
-        <h4>Meal Records: </h4>
-        <h4>Food Searches: </h4>
-        <h4>Food Item Views </h4>
-        <h4></h4>
-    </div>
+        <div class="row">
+            <div class="col s2"></div>
+            <div class="col s8">
+                <h5>Members Registered: {{ num_members }}</h5>
+                <h5>Coaches Registered: {{ num_coaches }}</h5>
+                <h5>Meal Records: {{ meal_records }}</h5>
+                <h5>Food Products: {{ food_products }}</h5>
+                <h5>Food Searches: {{ api_searches_count }}</h5>
+                <h5>Food Item Views {{ api_get_count }}</h5>
+                <br>
+                <h5>Latest Searches:</h5>
+                <table>
+                    <tbody>
+                    {% for search in latest_searches %}
+                        <tr><td>{{ search.timestamp }}</td><td>{{ search.query }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col s2"></div>
+        </div>
     </div>
 {% endblock %}

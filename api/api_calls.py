@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import requests
+from .models import ApiGetCall, ApiSearchCall
 
 # Get API key from file
 from .api_key import API_KEY
@@ -47,6 +48,8 @@ def get_food(fdc_id):
         except:
             pass
 
+    ApiGetCall.objects.create(fdc_id=fdc_id)
+
     return {
         'name': json_data['description'],
         'ingredients': ingr_list,
@@ -78,5 +81,7 @@ def search(s):
                 'name': item['description']
             }
             count += 1
+
+    ApiSearchCall.objects.create(query=s)
 
     return results
