@@ -10,19 +10,31 @@
 
 {% block content %}
     <div class="container">
-    <div class="col s6">
-        <h4>Member: {{ member.user.get_full_name }} ({{ member.user.username }})</h4>
-
-        <div style="margin-top:20px">
-            <h5>Meal Records:</h5>
-            <table style="margin-left:20px;">
-            <tbody>
-                {% for meal in member.meal_set.all %}
-                    <tr><td><a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a></td></tr>
-                {% endfor %}
-            </tbody>
-            </table>
+        <div class="col s6">
+            <h4>Member: {{ member.user.get_full_name }} ({{ member.user.username }})</h4>
         </div>
-    </div>
+        <div class="row" style="margin-top:20px">
+            <div class="col s4">
+                <h5>Meal Records:</h5>
+                <table style="margin-left:20px;">
+                    <tbody>
+                    {% for meal in member.meal_set.all %}
+                        <tr><td><a href="{{ meal.get_absolute_url }}">{{ meal.timestamp }}</a></td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        <div class="col s2"></div>
+            <div class="col s4">
+                <h5>Average Daily Nutrients (from previous week):</h5>
+                <table style="margin-left:20px;">
+                    <tbody>
+                    {% for nutrient in nutrient_list %}
+                        <tr><td>{{ nutrient.name }}</td><td>{{ nutrient.amount }} {{ nutrient.unit }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
