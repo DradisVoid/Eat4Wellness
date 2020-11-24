@@ -18,8 +18,8 @@ class MealDetailView(generic.DetailView):
     model = food_models.Meal
 
 
-class FoodProductDetailView(generic.DetailView):
-    model = food_models.FoodProduct
+class MealItemDetailView(generic.DetailView):
+    model = food_models.MealFoodServings
 
 
 def food_compare(request):

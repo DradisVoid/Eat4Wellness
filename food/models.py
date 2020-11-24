@@ -27,9 +27,6 @@ class FoodProduct(models.Model):
     def __str__(self):
         return self.product_name
 
-    def get_absolute_url(self):
-        return reverse('food-product-detail-view', args=[str(self.id)])
-
 
 class Meal(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
@@ -72,3 +69,10 @@ class MealFoodServings(models.Model):
 
     def __str__(self):
         return str(self.food_product) + " (" + str(self.servings) + " servings)"
+
+    def get_absolute_url(self):
+        return reverse('meal-item-detail-view', args=[str(self.id)])
+
+    def get_amount_ratio(self):
+        # return ratio of actual amount (portion * servings) to 100 g used in nutrients
+        return (self.portion.gram_weight * self.servings) / 100

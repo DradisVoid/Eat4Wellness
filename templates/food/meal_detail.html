@@ -15,8 +15,9 @@
         <div style="margin-top:20px">
             <h5>Food Products:</h5>
             <ul style="margin-left:20px;">
-                {% for food_product in meal.food_products.all %}
-                    <li><a href="{{ food_product.get_absolute_url }}">{{ food_product.product_name }}</a></li>
+                {% for item in meal.mealfoodservings_set.all %}
+                    <li><a href="{{ item.get_absolute_url }}">{{ item.food_product.product_name }}
+                        [{{ item.servings }} Servings of: {{ item.portion }}]</a></li>
                 {% endfor %}
             </ul>
         </div>
