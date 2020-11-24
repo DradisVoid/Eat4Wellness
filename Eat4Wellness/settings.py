@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'food.apps.FoodConfig',
-    'search.apps.SearchConfig',
+    'api.apps.SearchConfig',
     'materializecssform',
 ]
 

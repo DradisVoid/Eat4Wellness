@@ -26,7 +26,7 @@ urlpatterns = [
                   path('coach/', include('users.coach_urls')),
                   path('homepage/', include('users.urls')),
                   path('food/', include('food.urls')),
-                  path('search/', include('search.urls')),
+                  path('api/', include('api.urls')),
                   path('', RedirectView.as_view(url='homepage/')),
                   path('accounts/', include('django.contrib.auth.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

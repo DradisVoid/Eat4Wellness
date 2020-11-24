@@ -5,7 +5,7 @@ from django.views import generic
 from users.models import *
 from users.forms import *
 from food import models as food_models
-from search import api_calls
+from api import api_calls
 from datetime import datetime, timedelta
 
 
@@ -52,6 +52,63 @@ def admin_add_user(request):
 
 
 # Coach pages
+class MemberListView(generic.ListView):
+    model = Member
+
+    def get_queryset(self):
+        coach = Coach.objects.get(user_id=self.request.user)
+        return Member.objects.filter(coach_id=coach)
+
+
+class MemberDetailView(generic.DetailView):
+    model = Member
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberDetailView, self).get_context_data(**kwargs)
+        nutrient_list = get_member_avg_nutrients(self.object.pk)
+        context['nutrient_list'] = nutrient_list
+        return context
+
+
+def get_member_avg_nutrients(id):
+    member = Member.objects.get(id=id)
+
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=7)
+
+    meal_list = food_models.Meal.objects.filter(member_id=member, timestamp__range=(start_date, end_date))
+
+    date_set = set()
+    nutrient_set = {}
+
+    # get number of days
+    for meal in meal_list:
+        meal_date = meal.timestamp
+        date = datetime(year=meal_date.year, month=meal_date.month, day=meal_date.day)
+        date_set.add(date)
+
+        for food_product in meal.food_products.all():
+            for nutrient in food_product.foodnutrient_set.all():
+                if nutrient.nutrient.nutrient_name in nutrient_set:
+                    nutrient_set[nutrient.nutrient.nutrient_name]['amount'] += nutrient.amount
+                else:
+                    nutrient_set[nutrient.nutrient.nutrient_name] = {
+                        'amount': nutrient.amount,
+                        'unit': nutrient.unit
+                    }
+
+    num_days = len(date_set)
+    unsorted_nutrient_list = []
+    for nutrient in nutrient_set:
+        unsorted_nutrient_list.append({
+            'name': nutrient,
+            'amount': round(nutrient_set.get(nutrient).get('amount') / num_days, 2),
+            'unit': nutrient_set[nutrient].get('unit')
+        })
+
+    sorted_nutrient_list = sorted(unsorted_nutrient_list, key=lambda k: k['name'], reverse=True)
+
+    return sorted_nutrient_list
 
 
 # Member pages
@@ -145,62 +202,3 @@ def meal_add_food(request, id):
     }
 
     return render(request, 'member_meal_add_food.html', context=context)
-
-
-class MemberListView(generic.ListView):
-    model = Member
-
-    def get_queryset(self):
-        coach = Coach.objects.get(user_id=self.request.user)
-        return Member.objects.filter(coach_id=coach)
-
-
-class MemberDetailView(generic.DetailView):
-    model = Member
-
-    def get_context_data(self, **kwargs):
-        context = super(MemberDetailView, self).get_context_data(**kwargs)
-        nutrient_list = get_member_avg_nutrients(self.object.pk)
-        context['nutrient_list'] = nutrient_list
-        return context
-
-
-def get_member_avg_nutrients(id):
-    member = Member.objects.get(id=id)
-
-    end_date = datetime.now()
-    start_date = end_date - timedelta(days=7)
-
-    meal_list = food_models.Meal.objects.filter(member_id=member, timestamp__range=(start_date, end_date))
-
-    date_set = set()
-    nutrient_set = {}
-
-    # get number of days
-    for meal in meal_list:
-        meal_date = meal.timestamp
-        date = datetime(year=meal_date.year, month=meal_date.month, day=meal_date.day)
-        date_set.add(date)
-
-        for food_product in meal.food_products.all():
-            for nutrient in food_product.foodnutrient_set.all():
-                if nutrient.nutrient.nutrient_name in nutrient_set:
-                    nutrient_set[nutrient.nutrient.nutrient_name]['amount'] += nutrient.amount
-                else:
-                    nutrient_set[nutrient.nutrient.nutrient_name] = {
-                        'amount': nutrient.amount,
-                        'unit': nutrient.unit
-                    }
-
-    num_days = len(date_set)
-    unsorted_nutrient_list = []
-    for nutrient in nutrient_set:
-        unsorted_nutrient_list.append({
-            'name': nutrient,
-            'amount': round(nutrient_set.get(nutrient).get('amount') / num_days, 2),
-            'unit': nutrient_set[nutrient].get('unit')
-        })
-
-    sorted_nutrient_list = sorted(unsorted_nutrient_list, key=lambda k: k['name'], reverse=True)
-
-    return sorted_nutrient_list

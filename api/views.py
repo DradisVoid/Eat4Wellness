@@ -2,7 +2,7 @@ from django.shortcuts import render
 import requests
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from search import api_calls
+from api import api_calls
 
 
 # Create your views here.
