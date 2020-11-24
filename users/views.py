@@ -54,9 +54,6 @@ def admin_add_user(request):
             if user.is_coach:
                 coach = Coach(user=user)
                 coach.save()
-            if user.is_admin:
-                user.is_staff = True
-                user.save()
 
             return HttpResponseRedirect(reverse('admin_add_user') + '?s=1')
     else:
