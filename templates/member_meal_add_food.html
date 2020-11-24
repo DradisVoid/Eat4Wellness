@@ -169,7 +169,7 @@
                         let portionHTML = "<table><tbody>"
                         $.each(data.portions, function (k, v) {
                             portionHTML += "<tr><td><a onclick='addPortion(" + k + ", \"" + v.description + " - "
-                                + v.weight +"\")' class='btn btn-large waves-effect waves-light red'>" +
+                                + v.weight +"g\")' class='btn btn-large waves-effect waves-light red'>" +
                                 v.description + " - " + v.weight + "g</a></td></tr>"
                         });
                         portionHTML += "</tbody></table>"
@@ -182,7 +182,7 @@
                             dataHTML += "<tr><td>" + v.name + "</td></tr>";
                         })
 
-                        dataHTML += "</tbody></table><h5>Nutrients</h5><table><tbody>";
+                        dataHTML += "</tbody></table><h5>Nutrients</h5><span>Amounts out of 100 grams</span><table><tbody>";
 
                         $.each(data.nutrients, function (k, v) {
                             dataHTML += "<tr><td>" + v.name + "</td><td>" + v.amount + "</td><td>" + v.unit + "</td></tr>";
