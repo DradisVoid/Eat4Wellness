@@ -9,6 +9,12 @@ Eat4Wellness health coaches are able to access their assigned members' diet logs
 
 Test out the app's functionality at [Heroku](https://eat4wellness-arn.herokuapp.com/homepage/)
 
+Available users are:
+
+ - member (pass: 123456)
+ - coach (pass: 123456)
+ - admin (pass: 123456)
+
 ## Frameworks
 [Django 3.1](https://www.djangoproject.com/)
 
