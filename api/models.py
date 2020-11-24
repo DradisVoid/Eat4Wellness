@@ -21,4 +21,4 @@ class ApiGetCall(models.Model):
         ordering = ['-timestamp']
 
     def __str__(self):
-        return "Get: " + self.fdc_id
+        return "Get: " + str(self.fdc_id)
