@@ -20,3 +20,15 @@ class MealDetailView(generic.DetailView):
 
 class FoodProductDetailView(generic.DetailView):
     model = food_models.FoodProduct
+
+
+def food_compare(request):
+    context = {}
+
+    return render(request, 'member_food_compare.html', context=context)
+
+
+def member_nutrition(request):
+    context = {}
+
+    return render(request, 'member_nutrition.html', context=context)

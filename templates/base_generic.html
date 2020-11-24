@@ -64,16 +64,16 @@
                                 "><a href="{% url 'member_meals' %}">View Meals</a></li>
 
                                 <li class="
-                                {% if 'member/compare_food/' in request.path %}
+                                {% if 'food/compare/' in request.path %}
                                 active teal
                                 {% endif %}
-                                "><a href="{% url 'member_compare_meal' %}">Search/Compare Food</a></li>
+                                "><a href="{% url 'member_compare_food' %}">Search/Compare Food</a></li>
 
                                 <li class="
-                                {% if 'member/health_profile/' in request.path %}
+                                {% if 'food/nutrition/' in request.path %}
                                 active teal
                                 {% endif %}
-                                "><a href="">View Health Profile</a></li>
+                                "><a href="{% url 'member_nutrition' %}">Nutrition Analytics</a></li>
                             </ul>
                         </div>
                     </li>

@@ -145,12 +145,6 @@ def meal_add_food(request, id):
     return render(request, 'member_meal_add_food.html', context=context)
 
 
-def food_compare(request):
-    context = {}
-
-    return render(request, 'member_food_compare.html', context=context)
-
-
 class MemberListView(generic.ListView):
     model = Member
 

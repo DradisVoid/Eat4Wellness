@@ -1,0 +1,123 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}
+    Search/Compare Food
+{% endblock %}
+{% block pagetitle %}
+    Search/Compare Food
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="center">
+    <h6>Nutrients out of 100 gram serving</h6>
+    </div>
+        <div class="row">
+            <div class="col s4">
+                <br>
+                <form>
+                    <div class="input-field">
+                        <input id="foodSearchTerm" type="text" class="validate">
+                        <label for="foodSearchTerm">Food Name</label>
+                    </div>
+                    <a onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</a>
+                </form>
+                <br>
+                <div id="searchResultsLoader" class="preloader-wrapper big active" style="display: none">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+                </div>
+                <div id="searchResults"></div>
+
+            </div>
+            <div class="col s8">
+                <div id="viewFoodLoader" class="progress" style="display: none">
+                    <div class="indeterminate"></div>
+                </div>
+                <div id="viewFood" class="row">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <script>
+            function searchFood() {
+                let s = $("#foodSearchTerm").val()
+
+                $("#searchResultsLoader").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'search_food' %}",
+                    data: {
+                        's': s
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        let foodHTML = "<table><tbody>";
+                        $.each(data, function (k, v) {
+                            foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" + v.name + "</td>" +
+                                "<td><span class=\"btn waves-effect waves-light red\" onclick='viewFood(" + k + ")'>Add</span></td></tr>";
+                        });
+                        foodHTML += "</tbody></table>"
+
+                        $("#searchResultsLoader").hide()
+
+                        $("#searchResults").html(foodHTML);
+                    }
+                });
+            }
+
+            function viewFood(id) {
+                $(".foodList").removeClass('teal');
+                $("#foodRow" + id).addClass('teal');
+                $("#viewFoodLoader").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'view_food' %}",
+                    dataType: 'json',
+                    data: {
+                        'id': id
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        let dataHTML = "<div id='foodView" + id + "' class='col s4'><h4>" + data.name + "</h4>" +
+                            "<span class=\"btn waves-effect waves-light red remove\">Remove</span>" +
+                            "<h5>Ingredients</h5><table><tbody>";
+
+                        $.each(data.ingredients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table><h5>Nutrients</h5><table><tbody>";
+
+                        $.each(data.nutrients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td><td>" + v.amount + "</td><td>" + v.unit + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table></div>";
+
+                        $("#viewFoodLoader").hide();
+                        $("#viewFood").append(dataHTML);
+
+                        $("#foodView" + id).on('click', 'span.remove', function () {
+                            $("#foodView" + id).remove();
+                        });
+                    }
+                });
+            }
+        </script>
+
+    </div>
+{% endblock %}
