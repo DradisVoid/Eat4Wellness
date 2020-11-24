@@ -14,12 +14,25 @@
         <div class="col s4">
             <h4>Meal Date: {{ meal.timestamp }}</h4>
             <br>
-            <a class="waves-effect waves-light btn btn-large modal-trigger red" href="#foodProductModal">
-                <i class="material-icons">add</i> Add Food Product
-            </a>
+            <div style="float: left">
+                <a class="waves-effect waves-light btn btn-large modal-trigger red" href="#foodProductModal">
+                    <i class="material-icons">add</i> Add Food Product
+                </a>
+            </div>
+            <div style="float: right">
+                <a class="waves-effect waves-light btn btn-large modal-trigger teal" href="{% url 'homepage' %}">
+                    <i class="material-icons">check</i> Done
+                </a>
+            </div>
             <br>
 
-            <div id="foodList"></div>
+            <table>
+                <tbody>
+                {% for food_product in meal.mealfoodservings_set.all %}
+                    <tr><td>{{ food_product.food_product }}</td><td>{{ food_product.portion }}</td><td>{{ food_product.servings }} Servings</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
         </div>
 
