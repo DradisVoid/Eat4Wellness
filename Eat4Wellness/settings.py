@@ -11,23 +11,28 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p%n&)c&f)a*noe2z!tf=y3yj7k2(2^ze@k!f#6dqz8(xpr5_+n'
+# SECRET_KEY = 'p%n&)c&f)a*noe2z!tf=y3yj7k2(2^ze@k!f#6dqz8(xpr5_+n'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'p%n&)c&f)a*noe2z!tf=y3yj7k2(2^ze@k!f#6dqz8(xpr5_+n')
 
 AUTH_USER_MODEL = 'users.User'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'eat4wellness-arn.herokuapp.com/',
+    '127.0.0.1'
+]
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
@@ -78,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Eat4Wellness.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -88,7 +92,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -108,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -122,7 +124,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -133,3 +134,8 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
