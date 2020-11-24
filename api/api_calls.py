@@ -1,9 +1,15 @@
 from django.shortcuts import render
 import requests
+import os
 from .models import ApiGetCall, ApiSearchCall
 
 # Get API key from file
-from .api_key import API_KEY
+try:
+    from .api_key import API_KEY as FILE_API_KEY
+except ImportError:
+    FILE_API_KEY = ''
+
+API_KEY = os.environ.get('API_KEY', FILE_API_KEY)
 
 
 def get_food(fdc_id):
