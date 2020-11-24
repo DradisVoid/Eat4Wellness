@@ -14,15 +14,31 @@
         <div class="center row orange">Successfully added user to database!</div>
     {% endif %}
     <div class="container">
-        <div class="col s4">
-            <br>
-            <form method="post">
-                {% csrf_token %}
-                <table>
-                    {{ form|materializecss }}
-                </table>
-                <button type="submit" class="btn btn-large waves-effect waves-light teal">Submit</button>
-            </form>
+        <div class="row">
+            <div class="col s4">
+                <h4>Coaches List:</h4>
+            <table>
+            <thead>
+            <th>ID</th>
+            <th>Name</th>
+            </thead>
+                <tbody>
+                {% for coach in coach_list %}
+                    <tr><td>{{ coach.id }}</td><td>{{ coach.user.get_full_name }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            <div class="col s8">
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <table>
+                        {{ form|materializecss }}
+                    </table>
+                    <button type="submit" class="btn btn-large waves-effect waves-light teal">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

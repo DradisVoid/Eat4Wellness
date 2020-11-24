@@ -1,80 +1,101 @@
 [
-{
-    "model": "users.user",
-    "pk": 1,
-    "fields": {
-        "password": "pbkdf2_sha256$216000$okbh8lLgOwaS$4+5q3O2/Hdn1e1xeF7YGBxDJ8qEkRZMtGHt4QiWQokU=",
-        "last_login": "2020-11-23T04:44:14Z",
-        "is_superuser": true,
-        "username": "admin",
-        "first_name": "AFirst",
-        "last_name": "ALast",
-        "email": "admin@eat4wellness.com",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2020-11-22T05:15:42Z",
-        "is_member": false,
-        "is_coach": false,
-        "is_admin": true,
-        "groups": [],
-        "user_permissions": []
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$okbh8lLgOwaS$4+5q3O2/Hdn1e1xeF7YGBxDJ8qEkRZMtGHt4QiWQokU=",
+            "last_login": "2020-11-23T04:44:14Z",
+            "is_superuser": false,
+            "username": "admin",
+            "first_name": "Thor",
+            "last_name": "Odinson",
+            "email": "admin@eat4wellness.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-11-22T05:15:42Z",
+            "is_member": false,
+            "is_coach": false,
+            "is_admin": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$okbh8lLgOwaS$4+5q3O2/Hdn1e1xeF7YGBxDJ8qEkRZMtGHt4QiWQokU=",
+            "last_login": "2020-11-23T04:44:14Z",
+            "is_superuser": true,
+            "username": "superadmin",
+            "first_name": "Odin",
+            "last_name": "Borson",
+            "email": "superadmin@eat4wellness.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-11-22T05:15:42Z",
+            "is_member": false,
+            "is_coach": false,
+            "is_admin": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$4MgcYl0sOdBf$FMzXYRfSOb+3tKjmQn9ussljEiU29VSEVs3MuqphMy4=",
+            "last_login": "2020-11-23T05:44:57.402Z",
+            "is_superuser": false,
+            "username": "coach",
+            "first_name": "Tony",
+            "last_name": "Stark",
+            "email": "coach@coach.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-11-22T05:17:04Z",
+            "is_member": false,
+            "is_coach": true,
+            "is_admin": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$Lz8FZQsXXAZ9$5Bj1u9x10Qgda3de6nCGVvhLlP/X5q4Hmp0L1QyRUIk=",
+            "last_login": "2020-11-23T05:51:27.264Z",
+            "is_superuser": false,
+            "username": "member",
+            "first_name": "Peter",
+            "last_name": "Parker",
+            "email": "member@member.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-11-22T05:17:28Z",
+            "is_member": true,
+            "is_coach": false,
+            "is_admin": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.coach",
+        "pk": 1,
+        "fields": {
+            "user": 3
+        }
+    },
+    {
+        "model": "users.member",
+        "pk": 1,
+        "fields": {
+            "user": 4,
+            "coach": 1
+        }
     }
-},
-{
-    "model": "users.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$216000$4MgcYl0sOdBf$FMzXYRfSOb+3tKjmQn9ussljEiU29VSEVs3MuqphMy4=",
-        "last_login": "2020-11-23T05:44:57.402Z",
-        "is_superuser": false,
-        "username": "coach",
-        "first_name": "CFirst",
-        "last_name": "CLast",
-        "email": "coach@coach.com",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2020-11-22T05:17:04Z",
-        "is_member": false,
-        "is_coach": true,
-        "is_admin": false,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 3,
-    "fields": {
-        "password": "pbkdf2_sha256$216000$Lz8FZQsXXAZ9$5Bj1u9x10Qgda3de6nCGVvhLlP/X5q4Hmp0L1QyRUIk=",
-        "last_login": "2020-11-23T05:51:27.264Z",
-        "is_superuser": false,
-        "username": "member",
-        "first_name": "John",
-        "last_name": "Doe",
-        "email": "member@member.com",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2020-11-22T05:17:28Z",
-        "is_member": true,
-        "is_coach": false,
-        "is_admin": false,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.coach",
-    "pk": 1,
-    "fields": {
-        "user": 2
-    }
-},
-{
-    "model": "users.member",
-    "pk": 1,
-    "fields": {
-        "user": 3,
-        "coach": 1
-    }
-}
 ]

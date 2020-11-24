@@ -62,9 +62,12 @@ def admin_add_user(request):
     else:
         form = AddUserForm()
 
+    coach_list = Coach.objects.all()
+
     context = {
         'form': form,
-        's': request.GET.get('s', '0')
+        's': request.GET.get('s', '0'),
+        'coach_list': coach_list
     }
     return render(request, 'admin_add_user.html', context=context)
 
