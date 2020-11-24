@@ -1,0 +1,195 @@
+{% extends "base_generic.html" %}
+{% load materializecss %}
+{% load static %}
+
+{% block title %}
+    Add Meal Food
+{% endblock %}
+{% block pagetitle %}
+    Add Meal Food
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col s4">
+            <h4>Meal Date: {{ meal.timestamp }}</h4>
+            <br>
+            <a class="waves-effect waves-light btn btn-large modal-trigger red" href="#foodProductModal">
+                <i class="material-icons">add</i> Add Food Product
+            </a>
+            <br>
+
+            <div id="foodList"></div>
+
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="foodProductModal" class="modal">
+            <div class="modal-content">
+                <h4>Add Food Product</h4>
+
+                <form>
+                    <div class="input-field col s6">
+                        <input id="foodSearchTerm" type="text" class="validate">
+                        <label for="foodSearchTerm">Food Name</label>
+                    </div>
+                    <a onclick="searchFood()" class="btn btn-large waves-effect waves-light teal">Search</a>
+                </form>
+
+                <div class="row">
+                    <div class="col s6">
+                        <div id="searchResultsLoader" class="preloader-wrapper big active" style="display: none">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="searchResults"></div>
+                    </div>
+                    <div class="col s6">
+                        <div id="viewFoodLoader" class="preloader-wrapper big active" style="display: none">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="viewFood"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="portionModal" class="modal">
+            <div class="modal-content">
+                <h4>Food Portions</h4>
+                <div id="portionList"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+
+        <div id="formModal" class="modal">
+            <div class="modal-content">
+                <h4>Add to Meal?</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tbody>
+                        <tr><td id="foodName"></td></tr>
+                        <tr><td id="portionDesc"></td></tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        {{ form|materializecss }}
+                    </table>
+                    <br>
+                    <button type="submit" class="btn btn-large waves-effect waves-light teal">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+
+        <script>
+            function searchFood() {
+                let s = $("#foodSearchTerm").val()
+
+                $("#searchResultsLoader").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'search_food' %}",
+                    data: {
+                        's': s
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        let foodHTML = "<table><tbody>";
+                        $.each(data, function (k, v) {
+                            foodHTML += "<tr id='foodRow" + k + "' class='foodList lighten-4' ><td>" +
+                                "<a onclick='viewFood(" + k + ", \"" + v.name + "\")'>" + v.name + "</a></td></tr>";
+                        });
+                        foodHTML += "</tbody></table>"
+
+                        $("#searchResultsLoader").hide()
+
+                        $("#searchResults").html(foodHTML);
+                    }
+                });
+            }
+
+            function viewFood(id, name) {
+                $(".foodList").removeClass('teal');
+                $("#foodRow" + id).addClass('teal');
+                $("#viewFoodLoader").show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'view_food' %}",
+                    dataType: 'json',
+                    data: {
+                        'id': id
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        $("#id_food_id").val(id);
+                        $("#foodName").html(name);
+
+                        let portionHTML = "<table><tbody>"
+                        $.each(data.portions, function (k, v) {
+                            portionHTML += "<tr><td><a onclick='addPortion(" + k + ", \"" + v.description + " - "
+                                + v.weight +"\")' class='btn btn-large waves-effect waves-light red'>" +
+                                v.description + " - " + v.weight + "g</a></td></tr>"
+                        });
+                        portionHTML += "</tbody></table>"
+                        $("#portionList").html(portionHTML);
+
+                        let dataHTML = "<a data-target='portionModal' class='btn btn-large waves-effect waves-light red modal-trigger'>Add</a>" +
+                            "<h5>Ingredients</h5><table><tbody>";
+
+                        $.each(data.ingredients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table><h5>Nutrients</h5><table><tbody>";
+
+                        $.each(data.nutrients, function (k, v) {
+                            dataHTML += "<tr><td>" + v.name + "</td><td>" + v.amount + "</td><td>" + v.unit + "</td></tr>";
+                        })
+
+                        dataHTML += "</tbody></table>";
+
+                        $("#viewFoodLoader").hide();
+                        $("#viewFood").html(dataHTML);
+                    }
+                });
+            }
+
+            function addPortion(id, desc) {
+                $("#id_portion_id").val(id);
+                $("#portionDesc").html(desc);
+                let modal = M.Modal.getInstance($("#formModal"))
+                modal.open()
+            }
+        </script>
+
+    </div>
+{% endblock %}

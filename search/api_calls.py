@@ -38,22 +38,20 @@ def get_food(fdc_id):
             pass
 
     portions_list = {}
-    count_p = 0
     for item in json_data['foodPortions']:
         try:
-            nutr_list[count_n] = {
-                'name': item['nutrient']['name'],
-                'unit': item['nutrient']['unitName'],
-                'amount': item['amount']
+            portions_list[item['id']] = {
+                'description': item['portionDescription'],
+                'weight': item['gramWeight'],
             }
-            count_n += 1
         except:
             pass
 
     return {
         'name': json_data['description'],
         'ingredients': ingr_list,
-        'nutrients': nutr_list
+        'nutrients': nutr_list,
+        'portions': portions_list
     }
 
 

@@ -38,4 +38,9 @@ class AddUserForm(UserCreationForm):
 
 class AddMealForm(forms.Form):
     date = forms.DateTimeField(required=True, help_text='Meal Time', label='')
-    food_list = forms.CharField(widget=forms.HiddenInput())
+
+
+class AddFoodForm(forms.Form):
+    food_id = forms.CharField(widget=forms.HiddenInput())
+    portion_id = forms.CharField(widget=forms.HiddenInput())
+    servings = forms.IntegerField(required=True)
